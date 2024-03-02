@@ -10,10 +10,9 @@
     <% if(locals.id) { %>
         <p>URL Generated : www.myurl.com/<%= id %></p>
     <% } %>
-     
     <form action="/shorten" method="POST">
         <label for="url">Original URL:</label>
-        <input type="text" id="originalUrl" name="url" required placeholder="www.google.com">
+        <input type="text" id="originalUrl" name="url" required placeholder="https://www.google.com">
         <button type="submit">Shorten</button>
     </form>
 </body>

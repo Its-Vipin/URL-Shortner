@@ -11,17 +11,20 @@ const createShortURL = async (req, res) => {
         }
 
         const originalURL = body.url;
-        const existingURL = await urlModel.findOne({originalURL}); 
+        const existingURL = await urlModel.findOne({redirectURL: originalURL}); 
+        let shortId;
         if(existingURL){
-            return existingURL.newUrlId;
+            shortId = existingURL.newUrlId;
         }
-
-        const shortId = shortid();
-        await urlModel.create({
-            newUrlId: shortId,
-            redirectURL: originalURL,
-            visirHistory: [],
-        });
+        else{
+            shortId = shortid();
+            await urlModel.create({
+                newUrlId: shortId,
+                redirectURL: originalURL,
+                visirHistory: [],
+            });
+        }
+        
 
         return res.render('index', { id : shortId});
 }
