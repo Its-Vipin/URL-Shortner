@@ -4,7 +4,7 @@ const urlRoute = require('./routes/urlRoutes');
 
 const app = express();
 
-connectToDatabase(MONGODB_URL)
+connectToDatabase(process.env.MONGODB_URL)
 .then(() => console.log("Database Connected"))
 .catch((err) => console.log("Error connecting to database", err));
 
@@ -20,6 +20,6 @@ app.use('/',urlRoute);
 
 
 // Starting the server
-app.listen(PORT, () => {
-    console.log(`Server is running at PORT:${PORT}`);
+app.listen(process.env.PORT,() => {
+    console.log(`Server is running at PORT:${process.env.MONGODB_URL}`);
 });
