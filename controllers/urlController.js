@@ -1,5 +1,6 @@
 const shortid = require('shortid');
 const urlModel = require('../models/urlModel');
+// const { currentUrl } = require('../routes/urlRoutes');
 
 const createShortURL = async (req, res) => {
 
@@ -26,7 +27,10 @@ const createShortURL = async (req, res) => {
         }
         
 
-        return res.render('index', { id : shortId});
+        return res.render('index', {
+            id : shortId, 
+            // currentUrl: currentUrl
+        });
 }
 
 module.exports = { createShortURL };

@@ -2,12 +2,17 @@ const express = require('express');
 const router = express.Router();
 const urlModel = require('../models/urlModel');
 const { createShortURL } = require('../controllers/urlController');
+let currentUrl;
+
+// router.get('/', (req, res) => {
+//     currentUrl = req.protocol + '://' + req.get('host') + req.originalUrl;
+// });
 
 router.get('/', (req, res) => {
     res.render('../views/index.ejs');
 });
 
-router.get('/:id', async (req, res) => {
+router.get('/u/:id', async (req, res) => {
     const shortId = req.params.id;
     const url = await urlModel.findOneAndUpdate({
         newUrlId: shortId
@@ -29,3 +34,5 @@ router.get('/:id', async (req, res) => {
 router.post('/shorten', createShortURL);
 
 module.exports = router;
+
+// have to currentUrl

@@ -8,8 +8,11 @@
 <body>
     <h1>URL Shortener</h1>
     <% if(locals.id) { %>
-        <p>URL Generated : www.myurl.com/<%= id %></p>
+        <span>URL Generated :  <a href="http://localhost/<%= id %>" target="_blank">http://localhost/<%= id %></a></span>
+        <br>
+        <br>
     <% } %>
+    
     <form action="/shorten" method="POST">
         <label for="url">Original URL:</label>
         <input type="text" id="originalUrl" name="url" required placeholder="https://www.google.com">
