@@ -3,7 +3,6 @@ const { connectToDatabase } = require('./db');
 const urlRoute = require('./routes/urlRoutes');
 
 const app = express();
-const PORT = 8000;
 
 connectToDatabase(MONGODB_URL)
 .then(() => console.log("Database Connected"))
