@@ -1,22 +1,350 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>URL Shortener</title>
-</head>
-<body>
-    <h1>URL Shortener</h1>
-    <% if(locals.id) { %>
-        <span>URL Generated :  <a href="https://url-shortner-dpzq.onrender.com/u/<%= id %>" target="_blank">https://url-shortner-dpzq.onrender.com/u/<%= id %></a></span>
-        <br>
-        <br>
-    <% } %>
-    
-    <form action="/shorten" method="POST">
-        <label for="url">Original URL:</label>
-        <input type="text" id="originalUrl" name="url" required placeholder="https://www.google.com">
-        <button type="submit">Shorten</button>
-    </form>
-</body>
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+        <title>Design</title>
+        <style>
+            @import url("https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap");
+            @import url("https://fonts.googleapis.com/css2?family=Madimi+One&display=swap");
+
+            * {
+                margin: 0;
+                padding: 0;
+                list-style: none;
+                font-family: "montserrat", sans-serif;
+            }
+
+            .navbar h3 {
+                font-size: 1.3rem;
+                font-weight: 1000;
+                color: #000;
+            }
+
+            .navbar {
+                display: flex;
+                justify-content: space-between;
+                align-items: center;
+                background-color: #f8f9fa;
+                position: absolute;
+                right: 5vw;
+                width: 90vw;
+                height: 10vh;
+                box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            }
+
+            .navbar ul {
+                font-size: 1.2rem;
+                font-weight: 600;
+            }
+
+            .navbar ul li a {
+                text-decoration: none;
+                color: #000;
+            }
+
+            .menu-section {
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                gap: 5vw;
+            }
+
+            #play-btn {
+                background-color: #fd5a77;
+                color: white;
+                padding: 5px 10px;
+                border-radius: 13px;
+                text-decoration: none;
+                font-size: 1.2rem;
+                font-weight: 600;
+            }
+
+            .section1 {
+                background-color: #28282b;
+                color: white;
+                position: absolute;
+                top: 10vh;
+                width: 100vw;
+                height: 90vh;
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                flex-direction: column;
+            }
+
+            .input-url {
+                display: flex;
+                flex-direction: column;
+                align-items: center;
+                justify-content: center;
+            }
+
+            .input-url label {
+                font-size: 2.2vh;
+                font-weight: 600;
+                color: white;
+            }
+
+            .input-url input {
+                width: 450px;
+                height: 55px;
+                border-radius: 5px;
+                border: none;
+                padding: 0 10px;
+                margin-top: 10px;
+                font-size: 18px;
+                box-sizing: border-box;
+                padding: 20px 20px;
+            }
+
+            .url-gen-div {
+                width: 450px;
+                font-weight: 600;
+                font-size: 2.2vh;
+            }
+
+            #ignore-txt1 {
+                font-family: "Madimi One", sans-serif;
+                font-size: 10vh;
+                font-weight: 600;
+                font-style: normal;
+                color: white;
+                box-sizing: border-box;
+                -webkit-text-fill-color: transparent;
+                -webkit-text-stroke-width: 3px;
+            }
+
+            #ignore-txt2 {
+                font-family: "Madimi One", sans-serif;
+                font-size: 10vh;
+                font-weight: 600;
+                font-style: normal;
+                color: white;
+                box-sizing: border-box;
+            }
+
+            .ignore-txt div {
+                position: relative;
+                left: 55%;
+            }
+
+            #ignore-txt1:hover {
+                cursor: pointer;
+                /* color: white; */
+                -webkit-text-fill-color: white;
+            }
+
+            .ignore-txt span:hover {
+                cursor: pointer;
+                color: white;
+                -webkit-text-fill-color: transparent;
+                -webkit-text-stroke-width: 3px;
+            }
+
+            #submit-btn {
+                margin-top: 25px;
+                border: 0.5px solid white;
+                padding: 3px;
+            }
+            #submit-btn button {
+                background-color: #fd5a77;
+                border: none;
+                color: white;
+                font-weight: 500;
+                font-size: 16px;
+                padding: 13px 60px;
+                transition: 0.7s;
+            }
+
+            #submit-btn button:hover {
+                cursor: pointer;
+                background-color: white;
+                color: black;
+            }
+
+            /* pop up css */
+
+            .popup {
+                position: fixed;
+                height: 45vh;
+                top: 50%;
+                left: 50%;
+                transform: translate(-50%, -50%) scale(0);
+                transition: 0.4s ease-in-out;
+                /* z-index: 10; */
+                border: 1px solid black;
+                /* border-radius: 10px; */
+                z-index: 0;
+                background-color: white;
+                width: 550px;
+                max-width: 80%;
+            }
+
+            .popup.active {
+                transform: translate(-50%, -50%) scale(1);
+            }
+
+            .popup-header {
+                padding: 25px;
+                display: flex;
+                justify-content: space-between;
+                align-items: center;
+                border-bottom: 1px solid black;
+            }
+
+            .popup-header .title {
+                font-size: 1.25rem;
+                font-weight: bold;
+            }
+
+            .popup-header .close-button {
+                cursor: pointer;
+                border: none;
+                outline: none;
+                background: none;
+                font-size: 1.25rem;
+                font-weight: bold;
+            }
+
+            .popup-body {
+                padding: 10px 15px;
+                font-size: 50px;
+            }
+
+            #overlay {
+                position: fixed;
+                opacity: 0;
+                transition: 200ms ease-in-out;
+                top: 0;
+                right: 0;
+                left: 0;
+                bottom: 0;
+                background-color: #00000082;
+                pointer-events: none;
+                z-index: 1;
+            }
+
+            #overlay.active {
+                pointer-events: all;
+                opacity: 1;
+            }
+
+            /* media - queries  */
+
+            @media (max-width: 768px) {
+                .navbar {
+                    width: 95vw;
+                    right: 0;
+                }
+                .menu-section {
+                    gap: 5vw;
+                }
+                .input-url input {
+                    width: 400px;
+                }
+                .popup {
+                    width: 90%;
+                }
+            }
+
+            @media (max-width: 768px) {
+                #play-btn {
+                    display: none;
+                }
+            }
+        </style>
+    </head>
+    <body>
+        <nav class="navbar">
+            <div>
+                <h3>
+                    URL <br />
+                    SHORTENER
+                </h3>
+            </div>
+            <div>
+                <ul class="menu-section">
+                    <li><a href="./index.html">HOME</a></li>
+                    <li><a href="https://github.com/Its-Vipin">GITHUB</a></li>
+                    <li><a href="https://github.com/Its-Vipin">CONTACT</a></li>
+                </ul>
+            </div>
+            <a data-popup-target="#popup" href="#" id="play-btn">Lemme PLAY</a>
+            <!-- <button data-popup-target="#popup" id="play-btn">Lemme PLAY</button> -->
+        </nav>
+
+        <div class="popup" id="popup">
+            <div class="popup-header">
+                <div class="title">Hehe 😆</div>
+                <button data-close-button class="close-button">&times;</button>
+            </div>
+            <div class="popup-body">
+                Nothing is here. Just a popup.
+            </div>
+        </div>
+        <div id="overlay"></div>
+
+        <!-- Section1  -->
+        <div class="section1">
+            <div class="url-gen-div">
+                <% if(locals.id) { %>
+                <div>URL Generated :</div>
+                <a href="https://url-shortner-dpzq.onrender.com/u/<%= id %>" target="_blank">https://url-shortner-dpzq.onrender.com/u/<%= id %></a>
+            </div>
+            <br />
+            <br />
+            <% } %>
+
+            <form class="input-url" action="/shorten" method="POST">
+                <div>
+                    <label for="url">Enter your URL :</label><br />
+                    <input type="text" id="originalUrl" name="url" required placeholder="https://hecking.com" />
+                </div>
+
+                <div id="submit-btn">
+                    <button type="submit">Magic</button>
+                </div>
+            </form>
+            <div class="ignore-txt">
+                <span id="ignore-txt1">git</span>
+                <span id="ignore-txt2">ignore</span>
+                <div id="">like everyone ignores u!</div>
+            </div>
+        </div>
+
+        <script>
+            const openPopupButtons = document.querySelectorAll("[data-popup-target]");
+            const closePopupButtons = document.querySelectorAll("[data-close-button]");
+            const overlay = document.getElementById("overlay");
+
+            openPopupButtons.forEach((button) => {
+                button.addEventListener("click", () => {
+                    const popup = document.querySelector(button.dataset.popupTarget);
+                    openPopup(popup);
+                });
+            });
+
+            closePopupButtons.forEach((button) => {
+                button.addEventListener("click", () => {
+                    const popup = button.closest(".popup");
+                    closePopup(popup);
+                });
+            });
+
+            function openPopup(popup) {
+                if (popup == null) return;
+                popup.classList.add("active");
+                overlay.classList.add("active");
+                document.querySelector(".popup").style.zIndex = 10;
+            }
+
+            function closePopup(popup) {
+                if (popup == null) return;
+                popup.classList.remove("active");
+                overlay.classList.remove("active");
+            }
+        </script>
+    </body>
 </html>
