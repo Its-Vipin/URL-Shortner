@@ -11,7 +11,7 @@ This is a simple URL shortener project built using Node.js, Express, and MongoDB
 
 ## Live Demo
 
-Check out the live demo of the URL shortener: [Live Demo](url-shortner-dpzq.onrender.com/)
+Check out the live demo of the URL shortener: [Live Demo](http://url-shortner-dpzq.onrender.com/)
 
 ## License
 
